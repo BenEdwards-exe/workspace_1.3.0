@@ -1,0 +1,10 @@
+21:26:30 **** Incremental Build of configuration Debug for project prac3q4 ****
+make -j4 all 
+arm-none-eabi-size   prac3q4.elf 
+   text	   data	    bss	    dec	    hex	filename
+   5980	     20	   1572	   7572	   1d94	prac3q4.elf
+Finished building: default.size.stdout
+ 
+
+21:26:32 Build Finished. 0 errors, 0 warnings. (took 1s.640ms)
+

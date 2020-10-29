@@ -1,0 +1,10 @@
+12:29:45 **** Incremental Build of configuration Debug for project Practical 6 ****
+make -j4 all 
+arm-none-eabi-size   Practical\ 6.elf 
+   text	   data	    bss	    dec	    hex	filename
+  14076	    384	   3240	  17700	   4524	Practical 6.elf
+Finished building: default.size.stdout
+ 
+
+12:29:47 Build Finished. 0 errors, 0 warnings. (took 1s.779ms)
+

@@ -1,0 +1,10 @@
+main.c:908:6:playCollisionSound	8	static
+main.c:919:5:main	48	static
+main.c:1084:6:SystemClock_Config	112	static
+main.c:1139:13:MX_ADC1_Init	24	static
+main.c:1189:13:MX_I2S3_Init	8	static
+main.c:1221:13:MX_DMA_Init	16	static
+main.c:1239:13:MX_GPIO_Init	16	static
+main.c:1249:6:BitBlit	32	static
+main.c:1262:6:ClearSprite	32	static
+main.c:1276:6:Error_Handler	4	static

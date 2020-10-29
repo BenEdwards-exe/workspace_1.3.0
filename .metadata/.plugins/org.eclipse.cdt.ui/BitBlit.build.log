@@ -1,0 +1,10 @@
+22:17:26 **** Incremental Build of configuration Debug for project BitBlit ****
+make -j4 all 
+arm-none-eabi-size   BitBlit.elf 
+   text	   data	    bss	    dec	    hex	filename
+   4932	     20	   1572	   6524	   197c	BitBlit.elf
+Finished building: default.size.stdout
+ 
+
+22:17:27 Build Finished. 0 errors, 0 warnings. (took 1s.483ms)
+
