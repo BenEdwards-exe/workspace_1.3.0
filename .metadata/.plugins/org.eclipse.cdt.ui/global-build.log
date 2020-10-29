@@ -210,3 +210,10 @@ Finished building: Space Invaders.bin
 Finished building: Space Invaders.list
  
  
+21:16:07 **** Incremental Build of configuration Debug for project Space Invaders ****
+make -j4 all 
+arm-none-eabi-size   Space\ Invaders.elf 
+   text	   data	    bss	    dec	    hex	filename
+  47952	    616	   2352	  50920	   c6e8	Space Invaders.elf
+Finished building: default.size.stdout
+ 
