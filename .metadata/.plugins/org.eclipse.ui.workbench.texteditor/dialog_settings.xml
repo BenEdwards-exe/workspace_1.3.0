@@ -6,8 +6,11 @@
 		<item key="wholeword" value="false"/>
 		<item key="incremental" value="false"/>
 		<item key="isRegEx" value="false"/>
-		<item key="selection" value="RESET_LEVEL1"/>
+		<item key="selection" value="step"/>
 		<list key="findhistory">
+			<item value="step"/>
+			<item value="explodebg"/>
+			<item value="explode"/>
 			<item value="RESET_GAME"/>
 			<item value="RE"/>
 			<item value="playerScore"/>
@@ -20,11 +23,9 @@
 			<item value="title"/>
 			<item value="calcVelcity"/>
 			<item value="ay"/>
-			<item value="ax"/>
-			<item value="capturecall"/>
-			<item value="call"/>
 		</list>
 		<list key="replacehistory">
+			<item value="explode_step"/>
 			<item value="RESET_LEVEL1"/>
 			<item value="calcVelocity"/>
 			<item value="yVel"/>
@@ -33,8 +34,8 @@
 		</list>
 	</section>
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog_dialogBounds">
-		<item key="DIALOG_X_ORIGIN" value="680"/>
-		<item key="DIALOG_Y_ORIGIN" value="297"/>
+		<item key="DIALOG_X_ORIGIN" value="916"/>
+		<item key="DIALOG_Y_ORIGIN" value="213"/>
 		<item key="DIALOG_WIDTH" value="284"/>
 		<item key="DIALOG_HEIGHT" value="391"/>
 		<item key="DIALOG_FONT_NAME" value="1|Segoe UI|9.0|0|WINDOWS|1|-12|0|0|0|400|0|0|0|1|0|0|0|0|Segoe UI"/>

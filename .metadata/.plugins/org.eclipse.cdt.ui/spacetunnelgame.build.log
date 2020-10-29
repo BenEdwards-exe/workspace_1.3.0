@@ -1,4 +1,4 @@
-14:21:39 **** Incremental Build of configuration Debug for project spacetunnelgame ****
+10:30:24 **** Incremental Build of configuration Debug for project spacetunnelgame ****
 make -j4 all 
 arm-none-eabi-size   spacetunnelgame.elf 
    text	   data	    bss	    dec	    hex	filename
@@ -6,5 +6,5 @@ arm-none-eabi-size   spacetunnelgame.elf
 Finished building: default.size.stdout
  
 
-14:21:41 Build Finished. 0 errors, 0 warnings. (took 1s.550ms)
+10:30:25 Build Finished. 0 errors, 0 warnings. (took 1s.400ms)
 

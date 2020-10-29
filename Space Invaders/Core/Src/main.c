@@ -104,21 +104,52 @@ uint32_t ctr_lastcheck = 0;
 uint32_t ctr_invader1_lastcheck = 0;
 uint32_t ctr_invader1_fire = 0;
 
+int inv1_x_pos_to_explode[3] = {0};
+int inv1_y_pos_to_explode[3] = {0};
+int inv1_explode_phase[3] = {0};
+
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
 void SystemClock_Config(void);
 static void MX_GPIO_Init(void);
 /* USER CODE BEGIN PFP */
+void displayIntroScreen(uint32_t waitTime);
 void displayint(uint16_t val, uint32_t* screenptr);
 void clearscreen();
 void updatescreen();
 void updatePlayerMissileStatus(int missile_index);
 void updateEnemyMissileStatus(int missile_index);
+void explodeInvader1();
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
+void displayIntroScreen(uint32_t waitTime)
+{
+
+	// Intro Screen
+	uint8_t* title_screen = (uint8_t*) Title_Screen;
+	uint8_t* ptrsc = (uint8_t*) (0x20020000 + 40*320 + 37);
+	for (int i = 0; i < 31; ++i) {
+		for (int j = 0; j < 245; ++j) {
+			*ptrsc++ = *title_screen++;
+		}
+		ptrsc += 75;
+	}
+
+	uint32_t ctr_time = HAL_GetTick();
+	while (HAL_GetTick() - ctr_time <= waitTime);
+
+	for (int i = 0; i < 31; ++i) {
+		for (int j = 0; j < 245; ++j) {
+			*ptrsc++ = 0;
+		}
+		ptrsc += 75;
+	}
+
+}
+
 void clearscreen()
 {
 	uint32_t* ptrscreen = (uint32_t*)0x20021900;
@@ -287,6 +318,8 @@ void updatescreen()
 		}
 	}
 
+	// Display explosions
+	explodeInvader1();
 
 
 	displayint(playerScore, (uint32_t*)(0x20020418));
@@ -298,7 +331,7 @@ void updatePlayerMissileStatus(int missile_index)
 	int pos_y = player_missile_prev_ypos[missile_index];
 
 	// Check if missile is out of bounds
-	if (player_missile_ypos[missile_index] <= 0) {
+	if (player_missile_ypos[missile_index] <= 15) {
 		player_missile_status[missile_index] = 0;
 		uint8_t* ptrscreen = (uint8_t*)(0x20020000 + pos_y*320 + pos_x);
 		for (int i = 0; i < 4; i++) {
@@ -342,6 +375,9 @@ void updatePlayerMissileStatus(int missile_index)
 		player_missile_status[missile_index] = 0;
 		invader1_status[inv_r][inv_c] = 0;
 
+		inv_pos_x = invader1_prev_xpos[inv_r][inv_c];
+		inv_pos_y = invader1_prev_ypos[inv_r][inv_c];
+
 		// Erase missile and enemy
 		uint8_t* ptrscreen = (uint8_t*)(0x20020000 + pos_y*320 + pos_x);
 		for (int i = 0; i < 4; i++) {
@@ -358,19 +394,41 @@ void updatePlayerMissileStatus(int missile_index)
 			}
 			ptrscreen += 308;
 		}
+
+		// Find an open explosion index and assign explode coordinates
+		for (int explode_index = 0; explode_index < 3; ++explode_index) {
+			if (inv1_explode_phase[explode_index] == 0){
+				inv1_explode_phase[explode_index] = 1;
+
+				int explode_x_pos = inv_pos_x - 10;
+				int explode_y_pos = inv_pos_y - 12;
+
+				// Cap explosion coordinates to the screen
+				if (explode_x_pos <= 0) explode_x_pos = 0;
+				if (explode_x_pos >= 288) explode_x_pos = 288;
+				if (explode_y_pos >= 167) explode_y_pos = 167;
+				if (explode_y_pos <= 0) explode_y_pos = 0;
+
+				inv1_x_pos_to_explode[explode_index] = explode_x_pos;
+				inv1_y_pos_to_explode[explode_index] = explode_y_pos;
+				break;
+			}
+		}
+
 	}
 
 
 	return;
 }
 
+
 void updateEnemyMissileStatus(int missile_index)
 {
 
-	int pos_x = invader1_missile_prev_xpos[missile_index];
-	int pos_y = invader1_missile_prev_ypos[missile_index];
+	//int pos_x = invader1_missile_xpos[missile_index];
+	int pos_y = invader1_missile_ypos[missile_index];
 
-	if (pos_y >= 195) { // out of bounds and erase
+	if (pos_y >= 200) { // out of bounds and erase
 		invader1_missile_status[missile_index] = 0;
 		uint8_t* ptrscreen = (uint8_t*)(0x20020000 + invader1_missile_prev_ypos[missile_index]*320 + invader1_missile_prev_xpos[missile_index]);
 		for (int i = 0; i < 4; ++i) {
@@ -383,6 +441,70 @@ void updateEnemyMissileStatus(int missile_index)
 	}
 
 
+	return;
+}
+
+void explodeInvader1()
+{
+	for (int explode_index = 0; explode_index < 3; ++explode_index) {
+
+		//if (inv1_explode_phase[explode_index] != 0) {
+
+			uint8_t* screenptr = (uint8_t*) (0x20020000 + inv1_y_pos_to_explode[explode_index]*320 + inv1_x_pos_to_explode[explode_index]);
+			uint8_t* explode_sprite = 0;
+
+			// Erase explosion if sequence was complete and set explode_phase to 0
+			if (inv1_explode_phase[explode_index] == 8) {
+
+				for (int i = 0; i < 32; ++i) {
+					for (int j = 0; j < 32; ++j) {
+						*screenptr++ = 0;
+					}
+					screenptr += 288;
+				}
+				inv1_explode_phase[explode_index] = 0;
+				inv1_x_pos_to_explode[explode_index] = 0;
+				inv1_y_pos_to_explode[explode_index] = 0;
+			}
+
+			// Find the right explode sprite
+			switch (inv1_explode_phase[explode_index]) {
+				case 1:
+					explode_sprite = (uint8_t*) explode1;
+					break;
+				case 2:
+					explode_sprite = (uint8_t*) explode2;
+					break;
+				case 3:
+					explode_sprite = (uint8_t*) explode3;
+					break;
+				case 4:
+					explode_sprite = (uint8_t*) explode4;
+					break;
+				case 5:
+					explode_sprite = (uint8_t*) explode5;
+					break;
+				case 6:
+					explode_sprite = (uint8_t*) explode6;
+					break;
+				case 7:
+					explode_sprite = (uint8_t*) explode7;
+					break;
+			}
+			if (inv1_explode_phase[explode_index] != 0) {
+				for (int i = 0; i < 32; ++i) {
+					for (int j = 0; j < 32; ++j) {
+						*screenptr++ = *explode_sprite++;
+					}
+					screenptr += 288;
+				}
+				inv1_explode_phase[explode_index]++;
+			}
+
+
+		//}
+
+	}
 	return;
 }
 
@@ -435,11 +557,12 @@ int main(void)
   }
 
 
-
+  displayIntroScreen((uint32_t) 250);
 
   clearscreen();
 
   gameStatus = LEVEL_1;
+
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -543,26 +666,22 @@ int main(void)
 		}
 
 		// Move Invader 1
-		if (HAL_GetTick() - ctr_invader1_lastcheck >= 6) {
+		if (HAL_GetTick() - ctr_invader1_lastcheck >= 16) {
 
 			if (row_to_move < 0) {
 				row_to_move = 3;
 			}
 			for (int col = 0; col < 6; col++) {
 				if (inv1_direction == 1) {
-					invader1_xpos[row_to_move][col] += 2;
+					invader1_xpos[row_to_move][col] += 4;
 				}
 				else if (inv1_direction == 0) {
-					invader1_xpos[row_to_move][col] -= 2;
+					invader1_xpos[row_to_move][col] -= 4;
 				}
 			}
 			row_to_move--;
 
-
-			ctr_invader1_lastcheck = HAL_GetTick();
-
-
-			if (invader1_xpos[0][5] > 305) { // move down at right side
+			if (invader1_xpos[0][5] > 304) { // move down at right side
 				for (int row = 0; row < 4; row++) {
 					for (int col = 0; col < 6; col++) {
 						invader1_ypos[row][col] += 2;
@@ -570,7 +689,7 @@ int main(void)
 				}
 				inv1_direction = 0;
 			}
-			else if (invader1_xpos[0][0] < 3) { // down at left side
+			else if (invader1_xpos[0][0] < 4) { // down at left side
 				for (int row = 0; row < 4; ++row) {
 					for (int col = 0; col < 6; ++col) {
 						invader1_ypos[row][col] += 2;
@@ -578,6 +697,8 @@ int main(void)
 				}
 				inv1_direction = 1;
 			}
+
+			ctr_invader1_lastcheck = HAL_GetTick();
 		}
 
 
