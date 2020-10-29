@@ -6,8 +6,11 @@
 		<item key="wholeword" value="false"/>
 		<item key="incremental" value="false"/>
 		<item key="isRegEx" value="false"/>
-		<item key="selection" value="step"/>
+		<item key="selection" value="LOSE"/>
 		<list key="findhistory">
+			<item value="LOSE"/>
+			<item value="gameStatus"/>
+			<item value="WIN"/>
 			<item value="step"/>
 			<item value="explodebg"/>
 			<item value="explode"/>
@@ -20,9 +23,6 @@
 			<item value="GPIO"/>
 			<item value="displayint"/>
 			<item value="clearscreen"/>
-			<item value="title"/>
-			<item value="calcVelcity"/>
-			<item value="ay"/>
 		</list>
 		<list key="replacehistory">
 			<item value="explode_step"/>

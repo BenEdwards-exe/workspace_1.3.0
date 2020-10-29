@@ -1,6 +1,11 @@
-13:55:07 **** Incremental Build of configuration Debug for project Space Invaders ****
+18:56:58 **** Incremental Build of configuration Debug for project Space Invaders ****
 make -j4 all 
+arm-none-eabi-gcc "../Core/Src/Sprites.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DUSE_HAL_DRIVER -DSTM32F411xE -DDEBUG -c -I../Drivers/CMSIS/Include -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Core/Inc -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/Sprites.d" -MT"Core/Src/Sprites.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/Sprites.o"
 arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DUSE_HAL_DRIVER -DSTM32F411xE -DDEBUG -c -I../Drivers/CMSIS/Include -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Core/Inc -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+../Core/Src/main.c: In function 'updatescreen':
+../Core/Src/main.c:285:9: warning: assignment discards 'const' qualifier from pointer target type [-Wdiscarded-qualifiers]
+  ptrsrc = Barrier;
+         ^
 arm-none-eabi-gcc -o "Space Invaders.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Users\benjr\STM32CubeIDE\workspace_1.3.0\Space Invaders\STM32F411VETX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Space Invaders.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
 Finished building target: Space Invaders.elf
  
@@ -8,89 +13,42 @@ arm-none-eabi-objdump -h -S  Space\ Invaders.elf  > "Space Invaders.list"
 arm-none-eabi-objcopy  -O binary  Space\ Invaders.elf  "Space Invaders.bin"
 arm-none-eabi-size   Space\ Invaders.elf 
    text	   data	    bss	    dec	    hex	filename
-  32708	    612	   2316	  35636	   8b34	Space Invaders.elf
-Finished building: default.size.stdout
- 
-Finished building: Space Invaders.bin
- 
-Finished building: Space Invaders.list
- 
-13:55:15 **** Incremental Build of configuration Debug for project Space Invaders ****
-make -j4 all 
-arm-none-eabi-size   Space\ Invaders.elf 
-   text	   data	    bss	    dec	    hex	filename
-  32708	    612	   2316	  35636	   8b34	Space Invaders.elf
-Finished building: default.size.stdout
- 
-13:55:39 **** Incremental Build of configuration Debug for project Space Invaders ****
-make -j4 all 
-arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DUSE_HAL_DRIVER -DSTM32F411xE -DDEBUG -c -I../Drivers/CMSIS/Include -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Core/Inc -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
-arm-none-eabi-gcc -o "Space Invaders.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Users\benjr\STM32CubeIDE\workspace_1.3.0\Space Invaders\STM32F411VETX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Space Invaders.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
-Finished building target: Space Invaders.elf
- 
-arm-none-eabi-objdump -h -S  Space\ Invaders.elf  > "Space Invaders.list"
-arm-none-eabi-objcopy  -O binary  Space\ Invaders.elf  "Space Invaders.bin"
-arm-none-eabi-size   Space\ Invaders.elf 
-   text	   data	    bss	    dec	    hex	filename
-  32708	    612	   2316	  35636	   8b34	Space Invaders.elf
-Finished building: default.size.stdout
- 
-Finished building: Space Invaders.list
-Finished building: Space Invaders.bin
- 
- 
-13:56:15 **** Incremental Build of configuration Debug for project Space Invaders ****
-make -j4 all 
-arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DUSE_HAL_DRIVER -DSTM32F411xE -DDEBUG -c -I../Drivers/CMSIS/Include -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Core/Inc -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
-arm-none-eabi-gcc -o "Space Invaders.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Users\benjr\STM32CubeIDE\workspace_1.3.0\Space Invaders\STM32F411VETX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Space Invaders.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
-Finished building target: Space Invaders.elf
- 
-arm-none-eabi-objdump -h -S  Space\ Invaders.elf  > "Space Invaders.list"
-arm-none-eabi-objcopy  -O binary  Space\ Invaders.elf  "Space Invaders.bin"
-arm-none-eabi-size   Space\ Invaders.elf 
-   text	   data	    bss	    dec	    hex	filename
-  32708	    612	   2316	  35636	   8b34	Space Invaders.elf
-Finished building: default.size.stdout
- 
-Finished building: Space Invaders.bin
- 
-Finished building: Space Invaders.list
- 
-13:58:28 **** Incremental Build of configuration Debug for project Space Invaders ****
-make -j4 all 
-arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DUSE_HAL_DRIVER -DSTM32F411xE -DDEBUG -c -I../Drivers/CMSIS/Include -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Core/Inc -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
-arm-none-eabi-gcc -o "Space Invaders.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Users\benjr\STM32CubeIDE\workspace_1.3.0\Space Invaders\STM32F411VETX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Space Invaders.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
-Finished building target: Space Invaders.elf
- 
-arm-none-eabi-objdump -h -S  Space\ Invaders.elf  > "Space Invaders.list"
-arm-none-eabi-objcopy  -O binary  Space\ Invaders.elf  "Space Invaders.bin"
-arm-none-eabi-size   Space\ Invaders.elf 
-   text	   data	    bss	    dec	    hex	filename
-  32724	    612	   2316	  35652	   8b44	Space Invaders.elf
-Finished building: default.size.stdout
- 
-Finished building: Space Invaders.bin
- 
-Finished building: Space Invaders.list
- 
-13:59:12 **** Incremental Build of configuration Debug for project Space Invaders ****
-make -j4 all 
-arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DUSE_HAL_DRIVER -DSTM32F411xE -DDEBUG -c -I../Drivers/CMSIS/Include -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Core/Inc -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
-arm-none-eabi-gcc -o "Space Invaders.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Users\benjr\STM32CubeIDE\workspace_1.3.0\Space Invaders\STM32F411VETX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Space Invaders.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
-Finished building target: Space Invaders.elf
- 
-arm-none-eabi-objdump -h -S  Space\ Invaders.elf  > "Space Invaders.list"
-arm-none-eabi-objcopy  -O binary  Space\ Invaders.elf  "Space Invaders.bin"
-arm-none-eabi-size   Space\ Invaders.elf 
-   text	   data	    bss	    dec	    hex	filename
-  32724	    612	   2316	  35652	   8b44	Space Invaders.elf
+  47892	    616	   2328	  50836	   c694	Space Invaders.elf
 Finished building: default.size.stdout
  
 Finished building: Space Invaders.bin
 Finished building: Space Invaders.list
  
  
-13:59:53 **** Incremental Build of configuration Debug for project Space Invaders ****
+18:57:03 **** Incremental Build of configuration Debug for project Space Invaders ****
+make -j4 all 
+arm-none-eabi-size   Space\ Invaders.elf 
+   text	   data	    bss	    dec	    hex	filename
+  47892	    616	   2328	  50836	   c694	Space Invaders.elf
+Finished building: default.size.stdout
+ 
+18:58:04 **** Incremental Build of configuration Debug for project Space Invaders ****
+make -j4 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DUSE_HAL_DRIVER -DSTM32F411xE -DDEBUG -c -I../Drivers/CMSIS/Include -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Core/Inc -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+../Core/Src/main.c: In function 'updatescreen':
+../Core/Src/main.c:285:9: warning: assignment discards 'const' qualifier from pointer target type [-Wdiscarded-qualifiers]
+  ptrsrc = Barrier;
+         ^
+arm-none-eabi-gcc -o "Space Invaders.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Users\benjr\STM32CubeIDE\workspace_1.3.0\Space Invaders\STM32F411VETX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Space Invaders.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: Space Invaders.elf
+ 
+arm-none-eabi-objdump -h -S  Space\ Invaders.elf  > "Space Invaders.list"
+arm-none-eabi-objcopy  -O binary  Space\ Invaders.elf  "Space Invaders.bin"
+arm-none-eabi-size   Space\ Invaders.elf 
+   text	   data	    bss	    dec	    hex	filename
+  47892	    616	   2328	  50836	   c694	Space Invaders.elf
+Finished building: default.size.stdout
+ 
+Finished building: Space Invaders.bin
+Finished building: Space Invaders.list
+ 
+ 
+18:58:39 **** Incremental Build of configuration Debug for project Space Invaders ****
 make -j4 all 
 arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DUSE_HAL_DRIVER -DSTM32F411xE -DDEBUG -c -I../Drivers/CMSIS/Include -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Core/Inc -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
 arm-none-eabi-gcc -o "Space Invaders.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Users\benjr\STM32CubeIDE\workspace_1.3.0\Space Invaders\STM32F411VETX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Space Invaders.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
@@ -100,7 +58,152 @@ arm-none-eabi-objdump -h -S  Space\ Invaders.elf  > "Space Invaders.list"
 arm-none-eabi-objcopy  -O binary  Space\ Invaders.elf  "Space Invaders.bin"
 arm-none-eabi-size   Space\ Invaders.elf 
    text	   data	    bss	    dec	    hex	filename
-  32748	    612	   2316	  35676	   8b5c	Space Invaders.elf
+  47892	    616	   2328	  50836	   c694	Space Invaders.elf
+Finished building: default.size.stdout
+ 
+Finished building: Space Invaders.bin
+Finished building: Space Invaders.list
+ 
+ 
+19:00:02 **** Incremental Build of configuration Debug for project Space Invaders ****
+make -j4 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DUSE_HAL_DRIVER -DSTM32F411xE -DDEBUG -c -I../Drivers/CMSIS/Include -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Core/Inc -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+arm-none-eabi-gcc -o "Space Invaders.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Users\benjr\STM32CubeIDE\workspace_1.3.0\Space Invaders\STM32F411VETX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Space Invaders.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: Space Invaders.elf
+ 
+arm-none-eabi-objdump -h -S  Space\ Invaders.elf  > "Space Invaders.list"
+arm-none-eabi-objcopy  -O binary  Space\ Invaders.elf  "Space Invaders.bin"
+arm-none-eabi-size   Space\ Invaders.elf 
+   text	   data	    bss	    dec	    hex	filename
+  47896	    616	   2328	  50840	   c698	Space Invaders.elf
+Finished building: default.size.stdout
+ 
+Finished building: Space Invaders.bin
+ 
+Finished building: Space Invaders.list
+ 
+19:01:37 **** Incremental Build of configuration Debug for project Space Invaders ****
+make -j4 all 
+arm-none-eabi-size   Space\ Invaders.elf 
+   text	   data	    bss	    dec	    hex	filename
+  47896	    616	   2328	  50840	   c698	Space Invaders.elf
+Finished building: default.size.stdout
+ 
+19:02:39 **** Incremental Build of configuration Debug for project Space Invaders ****
+make -j4 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DUSE_HAL_DRIVER -DSTM32F411xE -DDEBUG -c -I../Drivers/CMSIS/Include -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Core/Inc -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+arm-none-eabi-gcc -o "Space Invaders.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Users\benjr\STM32CubeIDE\workspace_1.3.0\Space Invaders\STM32F411VETX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Space Invaders.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: Space Invaders.elf
+ 
+arm-none-eabi-objdump -h -S  Space\ Invaders.elf  > "Space Invaders.list"
+arm-none-eabi-objcopy  -O binary  Space\ Invaders.elf  "Space Invaders.bin"
+arm-none-eabi-size   Space\ Invaders.elf 
+   text	   data	    bss	    dec	    hex	filename
+  47896	    616	   2352	  50864	   c6b0	Space Invaders.elf
+Finished building: default.size.stdout
+ 
+Finished building: Space Invaders.bin
+Finished building: Space Invaders.list
+ 
+ 
+19:03:38 **** Incremental Build of configuration Debug for project Space Invaders ****
+make -j4 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DUSE_HAL_DRIVER -DSTM32F411xE -DDEBUG -c -I../Drivers/CMSIS/Include -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Core/Inc -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+arm-none-eabi-gcc -o "Space Invaders.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Users\benjr\STM32CubeIDE\workspace_1.3.0\Space Invaders\STM32F411VETX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Space Invaders.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: Space Invaders.elf
+ 
+arm-none-eabi-objdump -h -S  Space\ Invaders.elf  > "Space Invaders.list"
+arm-none-eabi-objcopy  -O binary  Space\ Invaders.elf  "Space Invaders.bin"
+arm-none-eabi-size   Space\ Invaders.elf 
+   text	   data	    bss	    dec	    hex	filename
+  47896	    616	   2352	  50864	   c6b0	Space Invaders.elf
+Finished building: default.size.stdout
+ 
+Finished building: Space Invaders.bin
+ 
+Finished building: Space Invaders.list
+ 
+19:05:04 **** Incremental Build of configuration Debug for project Space Invaders ****
+make -j4 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DUSE_HAL_DRIVER -DSTM32F411xE -DDEBUG -c -I../Drivers/CMSIS/Include -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Core/Inc -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+arm-none-eabi-gcc -o "Space Invaders.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Users\benjr\STM32CubeIDE\workspace_1.3.0\Space Invaders\STM32F411VETX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Space Invaders.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: Space Invaders.elf
+ 
+arm-none-eabi-objdump -h -S  Space\ Invaders.elf  > "Space Invaders.list"
+arm-none-eabi-objcopy  -O binary  Space\ Invaders.elf  "Space Invaders.bin"
+arm-none-eabi-size   Space\ Invaders.elf 
+   text	   data	    bss	    dec	    hex	filename
+  47896	    616	   2352	  50864	   c6b0	Space Invaders.elf
+Finished building: default.size.stdout
+ 
+Finished building: Space Invaders.list
+Finished building: Space Invaders.bin
+ 
+ 
+19:06:39 **** Incremental Build of configuration Debug for project Space Invaders ****
+make -j4 all 
+arm-none-eabi-gcc "../Core/Src/Sprites.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DUSE_HAL_DRIVER -DSTM32F411xE -DDEBUG -c -I../Drivers/CMSIS/Include -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Core/Inc -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/Sprites.d" -MT"Core/Src/Sprites.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/Sprites.o"
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DUSE_HAL_DRIVER -DSTM32F411xE -DDEBUG -c -I../Drivers/CMSIS/Include -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Core/Inc -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+arm-none-eabi-gcc -o "Space Invaders.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Users\benjr\STM32CubeIDE\workspace_1.3.0\Space Invaders\STM32F411VETX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Space Invaders.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: Space Invaders.elf
+ 
+arm-none-eabi-objdump -h -S  Space\ Invaders.elf  > "Space Invaders.list"
+arm-none-eabi-objcopy  -O binary  Space\ Invaders.elf  "Space Invaders.bin"
+arm-none-eabi-size   Space\ Invaders.elf 
+   text	   data	    bss	    dec	    hex	filename
+  47928	    616	   2352	  50896	   c6d0	Space Invaders.elf
+Finished building: default.size.stdout
+ 
+Finished building: Space Invaders.bin
+Finished building: Space Invaders.list
+ 
+ 
+19:08:50 **** Incremental Build of configuration Debug for project Space Invaders ****
+make -j4 all 
+arm-none-eabi-gcc "../Core/Src/Sprites.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DUSE_HAL_DRIVER -DSTM32F411xE -DDEBUG -c -I../Drivers/CMSIS/Include -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Core/Inc -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/Sprites.d" -MT"Core/Src/Sprites.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/Sprites.o"
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DUSE_HAL_DRIVER -DSTM32F411xE -DDEBUG -c -I../Drivers/CMSIS/Include -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Core/Inc -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+arm-none-eabi-gcc -o "Space Invaders.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Users\benjr\STM32CubeIDE\workspace_1.3.0\Space Invaders\STM32F411VETX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Space Invaders.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: Space Invaders.elf
+ 
+arm-none-eabi-objdump -h -S  Space\ Invaders.elf  > "Space Invaders.list"
+arm-none-eabi-objcopy  -O binary  Space\ Invaders.elf  "Space Invaders.bin"
+arm-none-eabi-size   Space\ Invaders.elf 
+   text	   data	    bss	    dec	    hex	filename
+  47948	    616	   2352	  50916	   c6e4	Space Invaders.elf
+Finished building: default.size.stdout
+ 
+Finished building: Space Invaders.bin
+Finished building: Space Invaders.list
+ 
+ 
+19:10:09 **** Incremental Build of configuration Debug for project Space Invaders ****
+make -j4 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DUSE_HAL_DRIVER -DSTM32F411xE -DDEBUG -c -I../Drivers/CMSIS/Include -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Core/Inc -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+arm-none-eabi-gcc -o "Space Invaders.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Users\benjr\STM32CubeIDE\workspace_1.3.0\Space Invaders\STM32F411VETX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Space Invaders.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: Space Invaders.elf
+ 
+arm-none-eabi-objdump -h -S  Space\ Invaders.elf  > "Space Invaders.list"
+arm-none-eabi-objcopy  -O binary  Space\ Invaders.elf  "Space Invaders.bin"
+arm-none-eabi-size   Space\ Invaders.elf 
+   text	   data	    bss	    dec	    hex	filename
+  47952	    616	   2352	  50920	   c6e8	Space Invaders.elf
+Finished building: default.size.stdout
+ 
+Finished building: Space Invaders.bin
+Finished building: Space Invaders.list
+ 
+ 
+19:10:37 **** Incremental Build of configuration Debug for project Space Invaders ****
+make -j4 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DUSE_HAL_DRIVER -DSTM32F411xE -DDEBUG -c -I../Drivers/CMSIS/Include -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Core/Inc -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+arm-none-eabi-gcc -o "Space Invaders.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Users\benjr\STM32CubeIDE\workspace_1.3.0\Space Invaders\STM32F411VETX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Space Invaders.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: Space Invaders.elf
+ 
+arm-none-eabi-objdump -h -S  Space\ Invaders.elf  > "Space Invaders.list"
+arm-none-eabi-objcopy  -O binary  Space\ Invaders.elf  "Space Invaders.bin"
+arm-none-eabi-size   Space\ Invaders.elf 
+   text	   data	    bss	    dec	    hex	filename
+  47952	    616	   2352	  50920	   c6e8	Space Invaders.elf
 Finished building: default.size.stdout
  
 Finished building: Space Invaders.bin
