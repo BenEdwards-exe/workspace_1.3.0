@@ -1,0 +1,3 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">&#x0A;<refactoring comment="Rename resource &apos;Space Invaders/Core/Inc/Soung.h&apos; to &apos;Sounf.h&apos;" description="Rename resource &apos;Soung.h&apos;" flags="7" id="org.eclipse.ltk.core.refactoring.rename.resource" input="Core/Inc/Soung.h" name="Sounf.h" stamp="1604058475867" updateReferences="true"/>&#x0A;<refactoring comment="Rename resource &apos;Space Invaders/Core/Inc/Sounf.h&apos; to &apos;Sound.h&apos;" description="Rename resource &apos;Sounf.h&apos;" flags="7" id="org.eclipse.ltk.core.refactoring.rename.resource" input="Core/Inc/Sounf.h" name="Sound.h" stamp="1604058487687" updateReferences="true"/>
+</session>

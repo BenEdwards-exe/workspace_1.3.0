@@ -24,6 +24,7 @@
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 #include "Sprites.h"
+#include "Sound.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -41,8 +42,11 @@
 /* USER CODE END PM */
 
 /* Private variables ---------------------------------------------------------*/
+I2S_HandleTypeDef hi2s3;
+DMA_HandleTypeDef hdma_spi3_tx;
 
 /* USER CODE BEGIN PV */
+
 enum State {
 	INTRO_SCREEN,
 	RESET_LEVEL1,
@@ -60,12 +64,10 @@ volatile uint8_t refresh = 0;
 volatile uint8_t player_fire = 0;
 volatile uint8_t continue_input = 0;
 
-extern uint8_t Ship[];
 int ship_x, ship_y = 0;
 int ship_px, ship_py = 0;
 int ship_health = 1;
 
-extern uint8_t Missile[];
 int player_missile_xpos[3];
 int player_missile_ypos[3];
 int player_missile_prev_xpos[3];
@@ -76,7 +78,6 @@ int barrier_x_pos[3] = {0};
 int barrier_y_pos[3] = {0};
 int barrier_health[3] = {0};
 
-extern uint8_t Invader1[];
 
 int invader1_xpos[4][6] = {0};
 int invader1_ypos[4][6] = {0};
@@ -86,6 +87,7 @@ int invader1_status[4][6] = {0};
 int row_to_move = 3;
 int inv1_direction = 1;
 int all_invader1_alive = 1; // 1: all alive; 0: all dead
+int total_inv1_left = 4*6;
 
 
 int invader1_fire_sequence[] = {
@@ -120,6 +122,8 @@ int inv1_explode_phase[3] = {0};
 /* Private function prototypes -----------------------------------------------*/
 void SystemClock_Config(void);
 static void MX_GPIO_Init(void);
+static void MX_DMA_Init(void);
+static void MX_I2S3_Init(void);
 /* USER CODE BEGIN PFP */
 void displayIntroScreen();
 void displayGameOver();
@@ -137,6 +141,7 @@ void displayIntroScreen()
 {
 
 	// Intro Screen
+	/*
 	uint8_t* title_screen = (uint8_t*) Title_Screen;
 	uint8_t* screenptr = (uint8_t*) (0x20020000 + 40*320 + 37);
 	for (int i = 0; i < 31; ++i) {
@@ -145,6 +150,18 @@ void displayIntroScreen()
 		}
 		screenptr += 75;
 	}
+	*/
+
+	// Intro Screen
+	uint8_t* title_screen = (uint8_t*) Title_Screen;
+	uint8_t* screenptr = (uint8_t*) (0x20020000 + 40*320 + 37);
+	for (int i = 0; i < 31; ++i) {
+		for (int j = 0; j < 245; ++j) {
+			*screenptr++ = *title_screen++;
+		}
+		screenptr += 75;
+	}
+
 	uint8_t* title_instuction = (uint8_t*) Title_Instruction;
 	screenptr = (uint8_t*) (0x20020000 + 100*320 + 64);
 	for (int i = 0; i < 16; ++i) {
@@ -259,7 +276,7 @@ void updatescreen()
 
 	// Draw New Ship
 	ptrscreen = (uint8_t*)(0x20020000 + ship_y*320 + ship_x);
-	uint8_t* ptrsrc = Ship;
+	uint8_t* ptrsrc = (uint8_t*) Ship;
 	for (int i = 0; i < 8; i++) {
 		for (int j = 0; j < 12; j++) {
 			*ptrscreen++ = *ptrsrc++;
@@ -272,10 +289,10 @@ void updatescreen()
 		if (barrier_health[barrier_index] == 0) {
 			ptrscreen = (uint8_t*) (0x20020000 + barrier_y_pos[barrier_index]*320 + barrier_x_pos[barrier_index]);
 			for (int i = 0; i < 5; ++i) {
-				for (int j = 0; j < 12; ++j) {
+				for (int j = 0; j < 22; ++j) {
 					*ptrscreen++ = 0;
 				}
-				ptrscreen += 308;
+				ptrscreen += 298;
 			}
 		}
 
@@ -317,7 +334,7 @@ void updatescreen()
 		for (int col = 0; col < 6; col++) {
 			if (invader1_status[row][col] == 1) {
 				ptrscreen = (uint8_t*)(0x20020000 +invader1_ypos[row][col]*320 + invader1_xpos[row][col]);
-				ptrsrc = Invader1;
+				ptrsrc = (uint8_t*) Invader1;
 				for (int i = 0; i < 8; i++) {
 					for (int j = 0; j < 12; j++) {
 						*ptrscreen++ = *ptrsrc++;
@@ -343,7 +360,7 @@ void updatescreen()
 	for (int m = 0; m < 3; ++m) {
 		if (player_missile_status[m] == 1) {
 			ptrscreen = (uint8_t*)(0x20020000 + player_missile_ypos[m]*320 + player_missile_xpos[m]);
-			ptrsrc = Missile;
+			ptrsrc = (uint8_t*)  Missile_Green;
 			for (int i = 0; i < 4; ++i) {
 				for (int j = 0; j < 1; ++j) {
 					*ptrscreen++ = *ptrsrc++;
@@ -370,7 +387,7 @@ void updatescreen()
 	for (int missile_index = 0; missile_index < 6; ++missile_index) {
 		if (invader1_missile_status[missile_index] == 1) {
 			ptrscreen = (uint8_t*)(0x20020000 + invader1_missile_ypos[missile_index]*320 + invader1_missile_xpos[missile_index]);
-			ptrsrc = Missile;
+			ptrsrc = (uint8_t*) Missile_Red;
 			for (int i = 0; i < 4; ++i) {
 				for (int j = 0; j < 1; ++j) {
 					*ptrscreen++ = *ptrsrc++;
@@ -405,6 +422,18 @@ void updatePlayerMissileStatus(int missile_index)
 		return;
 	}
 
+	/// Player Missile and Barrier Collision
+	for (int barrier_index = 0; barrier_index < 3; ++barrier_index) {
+		if (barrier_health[barrier_index] > 0) {
+			if ( (barrier_x_pos[barrier_index] + 22 >= pos_x) && (barrier_x_pos[barrier_index] <= pos_x + 2) && (barrier_y_pos[barrier_index] + 3 >= pos_y) && (barrier_y_pos[barrier_index] <= pos_y) ) {
+				--barrier_health[barrier_index];
+				player_missile_status[missile_index] = 0;
+				return;
+			}
+		}
+	}
+
+
 
 	/// Check for player missile and enemy collision
 	// Loop through enemy positions to check if one is hit
@@ -433,6 +462,11 @@ void updatePlayerMissileStatus(int missile_index)
 	}
 
 	if (inv_hit == 1) {
+		--total_inv1_left;
+		if (total_inv1_left > 0) {
+			HAL_I2S_Transmit_DMA(&hi2s3, (uint16_t*) audio_explode, AUDIOLEN_EXPLODE);
+		}
+
 		playerScore += 10;
 		player_missile_status[missile_index] = 0;
 		invader1_status[inv_r][inv_c] = 0;
@@ -502,11 +536,23 @@ void updateEnemyMissileStatus(int missile_index)
 		return;
 	}
 
-	// Check if missile hit player ship
+	/// Enemy Missile and Barrier Collision
+	for (int barrier_index = 0; barrier_index < 3; ++barrier_index) {
+		if (barrier_health[barrier_index] > 0) {
+			if ( (barrier_x_pos[barrier_index] + 22 >= pos_x) && (barrier_x_pos[barrier_index] <= pos_x + 2) && (barrier_y_pos[barrier_index] + 3 >= pos_y) && (barrier_y_pos[barrier_index] <= pos_y) ) {
+				--barrier_health[barrier_index];
+				invader1_missile_status[missile_index] = 0;
+				return;
+			}
+		}
+	}
+
+	/// Check if missile hit player ship
 	if ((ship_x + 12 >= pos_x) && (ship_x <= pos_x + 1) && (ship_y + 8 >= pos_y) && (ship_y <= pos_y + 1)) { // Player Ship Hit
 		--ship_health;
 		if (ship_health <= 0) {
 			gameStatus = LOSE;
+			HAL_I2S_Transmit_DMA(&hi2s3, (uint16_t*) boop_2, AUDIOLEN_BOOP_2);
 		}
 		return;
 	}
@@ -519,7 +565,6 @@ void explodeInvader1()
 {
 	for (int explode_index = 0; explode_index < 3; ++explode_index) {
 
-		//if (inv1_explode_phase[explode_index] != 0) {
 
 			uint8_t* screenptr = (uint8_t*) (0x20020000 + inv1_y_pos_to_explode[explode_index]*320 + inv1_x_pos_to_explode[explode_index]);
 			uint8_t* explode_sprite = 0;
@@ -572,9 +617,6 @@ void explodeInvader1()
 				inv1_explode_phase[explode_index]++;
 			}
 
-
-		//}
-
 	}
 	return;
 }
@@ -609,6 +651,8 @@ int main(void)
 
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
+  MX_DMA_Init();
+  MX_I2S3_Init();
   /* USER CODE BEGIN 2 */
 
   ship_x = 154;
@@ -628,6 +672,7 @@ int main(void)
   }
 
   gameStatus = INTRO_SCREEN;
+
 
   /* USER CODE END 2 */
 
@@ -653,6 +698,8 @@ int main(void)
 
 	  /// Reset Game
 	  if (gameStatus == RESET_LEVEL1) {
+
+		  total_inv1_left = 4*6;
 
 		  // Initialize Invader 1 position and status
 		  all_invader1_alive = 1;
@@ -795,13 +842,14 @@ int main(void)
 			// loop to find available missile
 			for (int missile_index = 0; missile_index < 3; ++missile_index) {
 				if (player_missile_status[missile_index] == 0) {
-
+					HAL_I2S_Transmit_DMA(&hi2s3, (uint16_t*) pew, AUDIOLEN_PEW);
 					player_missile_status[missile_index] = 1;
 					player_missile_xpos[missile_index] = ship_x + 5;
 					player_missile_ypos[missile_index] = ship_y - 4;
 					break;
 				}
 			}
+
 			player_fire = 0;
 		}
 
@@ -824,7 +872,6 @@ int main(void)
 				}
 				break;
 			}
-
 			ctr_invader1_fire = HAL_GetTick();
 		}
 
@@ -841,6 +888,7 @@ int main(void)
 			}
 		}
 		if (all_invader1_alive == 0) {
+			HAL_I2S_Transmit_DMA(&hi2s3, (uint16_t*) great_success, AUDIOLEN_GREAT_SUCCESS);
 			gameStatus = RESET_LEVEL1;
 		}
 
@@ -864,7 +912,14 @@ void SystemClock_Config(void)
 {
   RCC_OscInitTypeDef RCC_OscInitStruct = {0};
   RCC_ClkInitTypeDef RCC_ClkInitStruct = {0};
+  RCC_PeriphCLKInitTypeDef PeriphClkInitStruct = {0};
 
+  /** Macro to configure the PLL multiplication factor 
+  */
+  __HAL_RCC_PLL_PLLM_CONFIG(16);
+  /** Macro to configure the PLL clock source 
+  */
+  __HAL_RCC_PLL_PLLSOURCE_CONFIG(RCC_PLLSOURCE_HSI);
   /** Configure the main internal regulator output voltage 
   */
   __HAL_RCC_PWR_CLK_ENABLE();
@@ -875,6 +930,7 @@ void SystemClock_Config(void)
   RCC_OscInitStruct.HSIState = RCC_HSI_ON;
   RCC_OscInitStruct.HSICalibrationValue = RCC_HSICALIBRATION_DEFAULT;
   RCC_OscInitStruct.PLL.PLLState = RCC_PLL_NONE;
+  RCC_OscInitStruct.PLL.PLLSource = RCC_PLLSOURCE_HSI;
   if (HAL_RCC_OscConfig(&RCC_OscInitStruct) != HAL_OK)
   {
     Error_Handler();
@@ -892,6 +948,64 @@ void SystemClock_Config(void)
   {
     Error_Handler();
   }
+  PeriphClkInitStruct.PeriphClockSelection = RCC_PERIPHCLK_I2S;
+  PeriphClkInitStruct.PLLI2S.PLLI2SN = 192;
+  PeriphClkInitStruct.PLLI2S.PLLI2SM = 16;
+  PeriphClkInitStruct.PLLI2S.PLLI2SR = 2;
+  if (HAL_RCCEx_PeriphCLKConfig(&PeriphClkInitStruct) != HAL_OK)
+  {
+    Error_Handler();
+  }
+}
+
+/**
+  * @brief I2S3 Initialization Function
+  * @param None
+  * @retval None
+  */
+static void MX_I2S3_Init(void)
+{
+
+  /* USER CODE BEGIN I2S3_Init 0 */
+
+  /* USER CODE END I2S3_Init 0 */
+
+  /* USER CODE BEGIN I2S3_Init 1 */
+
+  /* USER CODE END I2S3_Init 1 */
+  hi2s3.Instance = SPI3;
+  hi2s3.Init.Mode = I2S_MODE_MASTER_TX;
+  hi2s3.Init.Standard = I2S_STANDARD_PHILIPS;
+  hi2s3.Init.DataFormat = I2S_DATAFORMAT_16B;
+  hi2s3.Init.MCLKOutput = I2S_MCLKOUTPUT_DISABLE;
+  hi2s3.Init.AudioFreq = I2S_AUDIOFREQ_8K;
+  hi2s3.Init.CPOL = I2S_CPOL_LOW;
+  hi2s3.Init.ClockSource = I2S_CLOCK_PLL;
+  hi2s3.Init.FullDuplexMode = I2S_FULLDUPLEXMODE_DISABLE;
+  if (HAL_I2S_Init(&hi2s3) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  /* USER CODE BEGIN I2S3_Init 2 */
+
+  /* USER CODE END I2S3_Init 2 */
+
+}
+
+/** 
+  * Enable DMA controller clock
+  */
+static void MX_DMA_Init(void) 
+{
+
+  /* DMA controller clock enable */
+  __HAL_RCC_DMA1_CLK_ENABLE();
+
+  /* DMA interrupt init */
+  /* DMA1_Stream5_IRQn interrupt configuration */
+  HAL_NVIC_SetPriority(DMA1_Stream5_IRQn, 0, 0);
+  HAL_NVIC_EnableIRQ(DMA1_Stream5_IRQn);
+
 }
 
 /**
@@ -906,6 +1020,7 @@ static void MX_GPIO_Init(void)
   /* GPIO Ports Clock Enable */
   __HAL_RCC_GPIOA_CLK_ENABLE();
   __HAL_RCC_GPIOD_CLK_ENABLE();
+  __HAL_RCC_GPIOC_CLK_ENABLE();
   __HAL_RCC_GPIOB_CLK_ENABLE();
 
   /*Configure GPIO pin : PA0 */
