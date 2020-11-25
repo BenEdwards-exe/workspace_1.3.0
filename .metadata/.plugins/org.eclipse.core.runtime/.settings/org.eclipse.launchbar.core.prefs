@@ -1,10 +1,12 @@
 LaunchTargetManager/org.eclipse.launchbar.core.launchTargetType.local,Local/arch=x86_64
 LaunchTargetManager/org.eclipse.launchbar.core.launchTargetType.local,Local/name=Local
 LaunchTargetManager/org.eclipse.launchbar.core.launchTargetType.local,Local/os=win32
-configDescList=org.eclipse.cdt.dsf.gdb.gdbRemotedescriptorType\:L22 SPI example Debug,org.eclipse.cdt.dsf.gdb.gdbRemotedescriptorType\:prac7q3 Debug,org.eclipse.cdt.dsf.gdb.gdbRemotedescriptorType\:prac7q2 Debug,org.eclipse.cdt.dsf.gdb.gdbRemotedescriptorType\:Practical 6 Debug,org.eclipse.cdt.dsf.gdb.gdbRemotedescriptorType\:spacetunnelgame Debug,org.eclipse.cdt.dsf.gdb.gdbRemotedescriptorType\:Practical8 Debug
+configDescList=org.eclipse.cdt.dsf.gdb.gdbRemotedescriptorType\:Space Invaders Debug,org.eclipse.cdt.dsf.gdb.gdbRemotedescriptorType\:L22 SPI example Debug,org.eclipse.cdt.dsf.gdb.gdbRemotedescriptorType\:prac7q3 Debug,org.eclipse.cdt.dsf.gdb.gdbRemotedescriptorType\:prac7q2 Debug,org.eclipse.cdt.dsf.gdb.gdbRemotedescriptorType\:Practical 6 Debug,org.eclipse.cdt.dsf.gdb.gdbRemotedescriptorType\:spacetunnelgame Debug,org.eclipse.cdt.dsf.gdb.gdbRemotedescriptorType\:Practical8 Debug,org.eclipse.cdt.dsf.gdb.gdbRemotedescriptorType\:A2 Prep Debug,org.eclipse.cdt.dsf.gdb.gdbRemotedescriptorType\:a1-prep Debug,org.eclipse.cdt.dsf.gdb.gdbRemotedescriptorType\:prac2q5 Debug,org.eclipse.cdt.dsf.gdb.gdbRemotedescriptorType\:A2_Write_1 Debug
 eclipse.preferences.version=1
 org.eclipse.cdt.dsf.gdb.gdbRemotedescriptorType\:A1_1\ Debug/activeLaunchMode=debug
 org.eclipse.cdt.dsf.gdb.gdbRemotedescriptorType\:A1_1\ Debug/activeLaunchTarget=null\:---
+org.eclipse.cdt.dsf.gdb.gdbRemotedescriptorType\:A2\ Prep\ Debug/activeLaunchMode=run
+org.eclipse.cdt.dsf.gdb.gdbRemotedescriptorType\:A2\ Prep\ Debug/activeLaunchTarget=null\:---
 org.eclipse.cdt.dsf.gdb.gdbRemotedescriptorType\:BitBlit\ Debug/activeLaunchMode=debug
 org.eclipse.cdt.dsf.gdb.gdbRemotedescriptorType\:L22\ SPI\ example\ Debug/activeLaunchMode=debug
 org.eclipse.cdt.dsf.gdb.gdbRemotedescriptorType\:L22\ SPI\ example\ Debug/activeLaunchTarget=null\:---

@@ -1,4 +1,4 @@
-20:43:02 **** Incremental Build of configuration Debug for project prac2q5 ****
+15:50:39 **** Incremental Build of configuration Debug for project prac2q5 ****
 make -j4 all 
 arm-none-eabi-size   prac2q5.elf 
    text	   data	    bss	    dec	    hex	filename
@@ -6,5 +6,5 @@ arm-none-eabi-size   prac2q5.elf
 Finished building: default.size.stdout
  
 
-20:43:04 Build Finished. 0 errors, 0 warnings. (took 1s.605ms)
+15:50:41 Build Finished. 0 errors, 0 warnings. (took 1s.770ms)
 

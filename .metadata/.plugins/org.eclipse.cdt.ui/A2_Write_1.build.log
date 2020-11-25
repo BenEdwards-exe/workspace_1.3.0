@@ -1,0 +1,10 @@
+16:30:27 **** Incremental Build of configuration Debug for project A2_Write_1 ****
+make -j4 all 
+arm-none-eabi-size   A2_Write_1.elf 
+   text	   data	    bss	    dec	    hex	filename
+  12980	    120	   1680	  14780	   39bc	A2_Write_1.elf
+Finished building: default.size.stdout
+ 
+
+16:30:28 Build Finished. 0 errors, 0 warnings. (took 1s.515ms)
+
